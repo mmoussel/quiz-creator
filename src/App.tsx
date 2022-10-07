@@ -1,13 +1,9 @@
-import React from 'react'
-import './App.css'
-import { SomeComponent } from './some-component'
+import { useRoutes } from 'react-router-dom'
+import { routes } from './routes'
 
 function App() {
-  return (
-    <>
-      <SomeComponent />
-    </>
-  )
+  const clinte = useRoutes(routes)
+  return <div>{clinte}</div>
 }
 
 export default App

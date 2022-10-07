@@ -14,7 +14,6 @@ h6 {
 }
 
 body {
-  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,20 +38,4 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-  margin: 4px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
