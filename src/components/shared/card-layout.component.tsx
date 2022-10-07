@@ -3,11 +3,11 @@ import { Box, SxProps, Typography, Theme } from '@mui/material'
 
 interface Props {
   title: string
-  muiSX: SxProps<Theme>
+  muiSX?: SxProps<Theme>
   children: React.ReactNode
 }
 
-export const CardLayout: FC<Props> = ({ title, children, muiSX }) => {
+export const CardLayout: FC<Props> = ({ title, children, muiSX = {} }) => {
   return (
     <Box
       sx={{

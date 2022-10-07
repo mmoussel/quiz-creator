@@ -3,6 +3,7 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { BasicInfo } from './components'
 
 const CreateQuiz = () => {
   const navigate = useNavigate()
@@ -20,7 +21,7 @@ const CreateQuiz = () => {
   return (
     <Container
       sx={{
-        pt: 14,
+        pt: 4,
       }}
     >
       <Stack
@@ -51,7 +52,9 @@ const CreateQuiz = () => {
       </Stack>
 
       <FormProvider {...methods}>
-        <form id='create-quiz-form' onSubmit={handleSubmit(onSubmitForm)}></form>
+        <form id='create-quiz-form' onSubmit={handleSubmit(onSubmitForm)}>
+          <BasicInfo />
+        </form>
       </FormProvider>
 
       <Divider sx={{ my: 3 }} />
