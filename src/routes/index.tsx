@@ -10,9 +10,20 @@ const loadable = (Component: React.LazyExoticComponent<() => JSX.Element>) => ()
 
 const Home = loadable(lazy(() => import('../pages/home.page')))
 
+const CreateQuiz = loadable(lazy(() => import('../pages/quizzes/create-quiz.page')))
+
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/quizzes',
+    children: [
+      {
+        path: 'create-quiz',
+        element: <CreateQuiz />,
+      },
+    ],
   },
 ]
