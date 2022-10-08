@@ -19,6 +19,12 @@ const CreateQuiz = () => {
           feedback_false: '',
           feedback_true: '',
           text: '',
+          answer_id: '',
+          answers: [
+            {
+              text: '',
+            },
+          ],
         },
       ],
     },

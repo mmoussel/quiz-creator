@@ -9,4 +9,10 @@ export interface QuestionForm {
   feedback_false: string
   feedback_true: string
   text: string
+  answers: AnswerForm[]
+  answer_id: string
+}
+
+interface AnswerForm {
+  text: string
 }
