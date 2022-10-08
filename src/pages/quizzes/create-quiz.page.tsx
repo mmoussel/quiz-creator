@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { BasicInfo, QuestionsForm } from './components'
 import { QuizForm } from '../../types'
+import { useQuizzes } from '../../hooks/use-quizzes.hook'
 
 const quizDefaultValues: QuizForm = {
   title: '',
@@ -33,11 +34,15 @@ const quizDefaultValues: QuizForm = {
 const CreateQuiz = () => {
   const navigate = useNavigate()
 
+  const { addQuiz } = useQuizzes()
+
   const methods = useForm<QuizForm>({
     defaultValues: quizDefaultValues,
   })
 
   const { handleSubmit } = methods
+
+  const goBack = () => navigate(-1)
 
   const onSubmitForm: SubmitHandler<QuizForm> = useCallback((event) => {
     const formatedData: QuizForm = {
@@ -51,8 +56,8 @@ const CreateQuiz = () => {
       })),
     }
 
-    // TODO: Add Quiz Here
-    console.log(formatedData)
+    addQuiz(formatedData)
+    navigate('/')
   }, [])
 
   return (
@@ -79,7 +84,7 @@ const CreateQuiz = () => {
               mr: 2,
             }}
             color='primary'
-            onClick={() => navigate(-1)}
+            onClick={goBack}
           >
             <ArrowBackRoundedIcon sx={{ width: 16, height: 16, resize: 'both' }} />
           </IconButton>
@@ -107,9 +112,10 @@ const CreateQuiz = () => {
           justifyContent: 'flex-end',
         }}
       >
-        <Button variant={'outlined'} sx={{ mr: 2 }}>
+        <Button variant={'outlined'} sx={{ mr: 2 }} onClick={goBack}>
           Discard
         </Button>
+
         <Button form='create-quiz-form' variant={'contained'} color='success' type='submit'>
           Create Quiz
         </Button>

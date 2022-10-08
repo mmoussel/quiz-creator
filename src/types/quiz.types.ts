@@ -17,4 +17,16 @@ export interface QuestionForm {
 interface AnswerForm {
   text: string
   id: string
+  is_true?: boolean
+}
+
+export interface Quiz {
+  created: Date
+  description: string
+  id: number
+  modified: Date
+  score: null
+  title: string
+  url: string
+  questions_answers: QuestionForm[]
 }
