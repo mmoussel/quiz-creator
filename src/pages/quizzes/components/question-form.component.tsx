@@ -12,18 +12,18 @@ const maximumAnswers = 5
 
 interface Props {
   questionIndex: number
-  questionId: string
+  fieldId: string
   canDelete: boolean
   onDelete: (questionIndex: number) => void
 }
 
-export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, questionId }) => {
+export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, fieldId }) => {
   const {
     register,
     formState: { errors },
     control,
-    watch,
     setValue,
+    watch,
   } = useFormContext<QuizForm>()
 
   const { fields, append, remove } = useFieldArray({
@@ -34,10 +34,14 @@ export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, qu
   const answersLength = fields.length
   const currntQuestionErrors = errors.questions_answers?.[questionIndex]
 
-  const correctAnswerSelected = watch(`questions_answers.${questionIndex}.answer_id`)
+  const questionId = watch(`questions_answers.${questionIndex}.id`)
 
   useEffect(() => {
-    setValue(`questions_answers.${questionIndex}.id`, questionId)
+    if (!questionId) {
+      // assign new Id to each question
+
+      setValue(`questions_answers.${questionIndex}.id`, fieldId)
+    }
   }, [])
 
   const onAddForm = () => {
@@ -48,18 +52,12 @@ export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, qu
   }
 
   const onDeleteAnswer = useCallback(
-    (answerIndex: number, answerId: string) => {
+    (answerIndex: number) => {
       if (answersLength > 1) {
-        if (answerId === correctAnswerSelected) {
-          setValue(
-            `questions_answers.${questionIndex}.answer_id`,
-            fields[answerIndex ? answerIndex - 1 : 1].id,
-          )
-        }
         remove(answerIndex)
       }
     },
-    [correctAnswerSelected, fields],
+    [answersLength],
   )
 
   return (
@@ -141,9 +139,9 @@ export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, qu
             <AnswerForm
               key={field.id}
               answerIndex={index}
-              answerId={field.id}
+              feildId={field.id}
               questionIndex={questionIndex}
-              onDelete={() => onDeleteAnswer(index, field.id)}
+              onDelete={onDeleteAnswer}
               canDelete={answersLength > 1}
             />
           ),

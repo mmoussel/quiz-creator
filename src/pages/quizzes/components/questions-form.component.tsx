@@ -53,7 +53,7 @@ export const QuestionsForm = () => {
               key={field.id}
               canDelete={formsLength > 1}
               onDelete={onDeleteForm}
-              questionId={field.id}
+              fieldId={field.id}
             />
           ),
       )}

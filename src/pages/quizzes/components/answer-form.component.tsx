@@ -13,7 +13,7 @@ interface Props {
   answerIndex: number
   canDelete: boolean
   onDelete: (anwerIndex: number) => void
-  answerId: string
+  feildId: string
 }
 
 export const AnswerForm: FC<Props> = ({
@@ -21,22 +21,44 @@ export const AnswerForm: FC<Props> = ({
   answerIndex,
   onDelete,
   canDelete,
-  answerId,
+  feildId,
 }) => {
   const {
     register,
     formState: { errors },
     setValue,
     control,
+    watch,
   } = useFormContext<QuizForm>()
 
   const currntQuestionErrors = errors.questions_answers?.[questionIndex]
 
   const currentAnswerError = currntQuestionErrors?.answers?.[answerIndex]?.text
 
+  const answerId = watch(`questions_answers.${questionIndex}.answers.${answerIndex}.id`)
+  const correctAnswerSelected = watch(`questions_answers.${questionIndex}.answer_id`)
+
   useEffect(() => {
-    setValue(`questions_answers.${questionIndex}.answers.${answerIndex}.id`, answerId)
+    if (!answerId) {
+      // assign new Id to each answer
+
+      setValue(`questions_answers.${questionIndex}.answers.${answerIndex}.id`, feildId, {
+        shouldValidate: true,
+      })
+    }
   }, [])
+
+  const handleDelete = () => {
+    if (answerId === correctAnswerSelected) {
+      // delete the answer id from question
+      setValue(`questions_answers.${questionIndex}.answer_id`, '', {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
+    }
+    onDelete(answerIndex)
+  }
 
   return (
     <Box>
@@ -93,7 +115,7 @@ export const AnswerForm: FC<Props> = ({
         />
 
         {canDelete && (
-          <IconButton onClick={() => onDelete(answerIndex)}>
+          <IconButton onClick={handleDelete}>
             <CloseIcon color='error' fontSize='small' />
           </IconButton>
         )}
