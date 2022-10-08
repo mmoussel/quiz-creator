@@ -9,7 +9,7 @@ const questionDefualtData: QuestionFormInterface = {
   feedback_false: '',
   feedback_true: '',
   text: '',
-  answers: [],
+  answers: [{ text: '', id: '' }],
   id: '',
   answer_id: '',
 }
