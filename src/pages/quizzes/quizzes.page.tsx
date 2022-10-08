@@ -11,6 +11,7 @@ const Quizzes = () => {
     () => quizzes.map((quiz) => <QuizCard quiz={quiz} key={quiz.id} />),
     [quizzes],
   )
+
   return (
     <Container
       sx={{
@@ -34,6 +35,11 @@ const Quizzes = () => {
       </Stack>
 
       <Box mt={6}>{renderQuizzes}</Box>
+      {!quizzes.length && (
+        <Typography variant='h4' color='text.secondary'>
+          No Quizzes Created
+        </Typography>
+      )}
     </Container>
   )
 }
