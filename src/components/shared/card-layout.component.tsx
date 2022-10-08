@@ -5,9 +5,10 @@ interface Props {
   title: string
   muiSX?: SxProps<Theme>
   children: React.ReactNode
+  rightComponent?: React.ReactNode
 }
 
-export const CardLayout: FC<Props> = ({ title, children, muiSX = {} }) => {
+export const CardLayout: FC<Props> = ({ title, children, muiSX = {}, rightComponent }) => {
   return (
     <Box
       sx={{
@@ -31,6 +32,8 @@ export const CardLayout: FC<Props> = ({ title, children, muiSX = {} }) => {
         <Typography variant='body1' fontWeight='fontWeightMedium'>
           {title}
         </Typography>
+
+        {rightComponent}
       </Box>
 
       <Box p={3} pb={2}>

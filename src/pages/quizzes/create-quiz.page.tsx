@@ -3,14 +3,24 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { BasicInfo } from './components'
+import { BasicInfo, QuestionsForm } from './components'
+import { QuizForm } from '../../types'
 
 const CreateQuiz = () => {
   const navigate = useNavigate()
 
-  const methods = useForm({
+  const methods = useForm<QuizForm>({
     defaultValues: {
       title: '',
+      url: '',
+      description: '',
+      questions_answers: [
+        {
+          feedback_false: '',
+          feedback_true: '',
+          text: '',
+        },
+      ],
     },
   })
 
@@ -54,6 +64,10 @@ const CreateQuiz = () => {
       <FormProvider {...methods}>
         <form id='create-quiz-form' onSubmit={handleSubmit(onSubmitForm)}>
           <BasicInfo />
+
+          <Box my={4} />
+
+          <QuestionsForm />
         </form>
       </FormProvider>
 
