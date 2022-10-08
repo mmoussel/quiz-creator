@@ -7,13 +7,16 @@ import App from './App'
 import { ThemeProvider } from '@mui/material'
 import theme from './theme'
 import { BrowserRouter } from 'react-router-dom'
+import { QuizzesProvider } from './contexts'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <QuizzesProvider>
+          <App />
+        </QuizzesProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
