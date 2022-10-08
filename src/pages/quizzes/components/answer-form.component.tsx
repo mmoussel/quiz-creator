@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Box, Checkbox, IconButton, TextField, Typography } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 
@@ -26,12 +26,17 @@ export const AnswerForm: FC<Props> = ({
   const {
     register,
     formState: { errors },
+    setValue,
     control,
   } = useFormContext<QuizForm>()
 
   const currntQuestionErrors = errors.questions_answers?.[questionIndex]
 
   const currentAnswerError = currntQuestionErrors?.answers?.[answerIndex]?.text
+
+  useEffect(() => {
+    setValue(`questions_answers.${questionIndex}.answers.${answerIndex}.id`, answerId)
+  }, [])
 
   return (
     <Box>
@@ -56,6 +61,9 @@ export const AnswerForm: FC<Props> = ({
         <Controller
           control={control}
           name={`questions_answers.${questionIndex}.answer_id`}
+          rules={{
+            required: true,
+          }}
           render={({ field: { value, onChange } }) => (
             <Box
               sx={{

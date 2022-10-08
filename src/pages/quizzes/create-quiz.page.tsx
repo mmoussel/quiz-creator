@@ -1,38 +1,59 @@
+import { useCallback } from 'react'
+
 import { Box, Button, IconButton, Typography, Stack, Divider, Container } from '@mui/material'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+
 import { BasicInfo, QuestionsForm } from './components'
 import { QuizForm } from '../../types'
+
+const quizDefaultValues: QuizForm = {
+  title: '',
+  url: '',
+  description: '',
+  questions_answers: [
+    {
+      feedback_false: '',
+      feedback_true: '',
+      text: '',
+      answer_id: '',
+      id: '',
+      answers: [
+        {
+          text: '',
+          id: '',
+        },
+      ],
+    },
+  ],
+}
 
 const CreateQuiz = () => {
   const navigate = useNavigate()
 
   const methods = useForm<QuizForm>({
-    defaultValues: {
-      title: '',
-      url: '',
-      description: '',
-      questions_answers: [
-        {
-          feedback_false: '',
-          feedback_true: '',
-          text: '',
-          answer_id: '',
-          answers: [
-            {
-              text: '',
-            },
-          ],
-        },
-      ],
-    },
+    defaultValues: quizDefaultValues,
   })
 
   const { handleSubmit } = methods
 
-  const onSubmitForm = () => null
+  const onSubmitForm: SubmitHandler<QuizForm> = useCallback((event) => {
+    const formatedData: QuizForm = {
+      ...event,
+      questions_answers: event.questions_answers.map((question) => ({
+        ...question,
+        answers: question.answers.map((answer) => ({
+          ...answer,
+          is_true: Boolean(question.answer_id === answer.id),
+        })),
+      })),
+    }
+
+    // TODO: Add Quiz Here
+    console.log(formatedData)
+  }, [])
 
   return (
     <Container
@@ -89,9 +110,8 @@ const CreateQuiz = () => {
         <Button variant={'outlined'} sx={{ mr: 2 }}>
           Discard
         </Button>
-
         <Button form='create-quiz-form' variant={'contained'} color='success' type='submit'>
-          Save changes
+          Create Quiz
         </Button>
       </Box>
     </Container>

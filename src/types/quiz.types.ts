@@ -11,8 +11,10 @@ export interface QuestionForm {
   text: string
   answers: AnswerForm[]
   answer_id: string
+  id: string
 }
 
 interface AnswerForm {
   text: string
+  id: string
 }

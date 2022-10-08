@@ -3,16 +3,19 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import AddIcon from '@mui/icons-material/Add'
 import { QuestionForm } from './question-form.component'
+import { QuizForm, QuestionForm as QuestionFormInterface } from '../../../types'
 
-const questionDefualtData = {
+const questionDefualtData: QuestionFormInterface = {
   feedback_false: '',
   feedback_true: '',
   text: '',
   answers: [],
+  id: '',
+  answer_id: '',
 }
 
 export const QuestionsForm = () => {
-  const { control } = useFormContext()
+  const { control } = useFormContext<QuizForm>()
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions_answers',
@@ -47,9 +50,10 @@ export const QuestionsForm = () => {
           field && (
             <QuestionForm
               questionIndex={index}
-              key={index.toString()}
+              key={field.id}
               canDelete={formsLength > 1}
               onDelete={onDeleteForm}
+              questionId={field.id}
             />
           ),
       )}

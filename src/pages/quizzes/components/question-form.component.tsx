@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import { Box, Button, IconButton, TextField } from '@mui/material'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
@@ -12,11 +12,12 @@ const maximumAnswers = 5
 
 interface Props {
   questionIndex: number
+  questionId: string
   canDelete: boolean
   onDelete: (questionIndex: number) => void
 }
 
-export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete }) => {
+export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete, questionId }) => {
   const {
     register,
     formState: { errors },
@@ -35,17 +36,25 @@ export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete }) 
 
   const correctAnswerSelected = watch(`questions_answers.${questionIndex}.answer_id`)
 
+  useEffect(() => {
+    setValue(`questions_answers.${questionIndex}.id`, questionId)
+  }, [])
+
   const onAddForm = () => {
     append({
       text: '',
+      id: '',
     })
   }
 
   const onDeleteAnswer = useCallback(
     (answerIndex: number, answerId: string) => {
-      if (answerIndex > 0) {
+      if (answersLength > 1) {
         if (answerId === correctAnswerSelected) {
-          setValue(`questions_answers.${questionIndex}.answer_id`, fields[answerIndex - 1].id)
+          setValue(
+            `questions_answers.${questionIndex}.answer_id`,
+            fields[answerIndex ? answerIndex - 1 : 1].id,
+          )
         }
         remove(answerIndex)
       }
@@ -144,6 +153,13 @@ export const QuestionForm: FC<Props> = ({ questionIndex, canDelete, onDelete }) 
       <Button disabled={answersLength >= maximumAnswers} variant='outlined' onClick={onAddForm}>
         Add answer
       </Button>
+
+      {currntQuestionErrors?.answer_id && (
+        <>
+          <Box mt={3} />
+          <InputHelperErrorIcon text={'Please select the correct answer'} />
+        </>
+      )}
     </CardLayout>
   )
 }
